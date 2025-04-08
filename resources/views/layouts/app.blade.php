@@ -52,7 +52,7 @@
                 <button id="toggle-sidebar" class="focus:outline-none">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
-                <h1 class="text-2xl font-bold">Shop Name</h1>
+                <h1 class="text-2xl font-bold">Inpo Nama Toko Wo</h1>
                 <div class="w-10"></div>
             </div>
             @yield('content')
