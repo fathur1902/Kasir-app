@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Statistik Cards -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 col-span-3">
             <div class="bg-white p-4 rounded-lg shadow flex items-center">
                 <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
@@ -34,7 +33,6 @@
             </div>
         </div>
 
-        <!-- Transaction Section (Sebelah Kiri) -->
         <div class="bg-white p-4 rounded-lg shadow md:col-span-2">
             <h2 class="text-lg font-semibold mb-4">Transaksi</h2>
             <div class="mb-4">
@@ -54,8 +52,6 @@
                     <button class="bg-blue-500 text-white px-4 py-2 rounded">Bayar & Cetak</button>
                 </div>
             </div>
-
-            <!-- List Order -->
             <h3 class="text-lg font-semibold mb-2">Daftar Pesanan</h3>
             <table class="w-full border-collapse">
                 <thead>
@@ -88,8 +84,6 @@
                 <button class="p-2 bg-gray-200 rounded-r">→</button>
             </div>
         </div>
-
-        <!-- Chart (Sebelah Kanan) -->
         <div class="bg-white p-4 rounded-lg shadow md:col-span-1">
             <h2 class="text-lg font-semibold mb-4">Chart</h2>
             <canvas id="salesChart" class="h-48"></canvas>

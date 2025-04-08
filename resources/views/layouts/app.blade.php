@@ -71,14 +71,10 @@
                 // Toggle lebar sidebar
                 sidebar.classList.toggle('w-64');
                 sidebar.classList.toggle('w-16');
-
-                // Sembunyikan/tampilkan teks
                 adminText.classList.toggle('hidden');
                 sidebarTexts.forEach(text => {
                     text.classList.toggle('hidden');
                 });
-
-                // Ganti ikon tombol toggle
                 toggleButton.querySelector('i').classList.toggle('fa-bars');
                 toggleButton.querySelector('i').classList.toggle('fa-bars');
             });
