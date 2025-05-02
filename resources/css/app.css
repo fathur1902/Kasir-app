@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -7,6 +7,32 @@
 @source "../views";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+tr:hover {
+    background-color: #f3f4f6;
+}
+.table-bordered th,
+.table-bordered td {
+    border-right: 1px solid #000000;
+}
+
+.table-bordered th:last-child,
+.table-bordered td:last-child {
+    border-right: none;
+}
+
+.table-bordered {
+    border: 1px solid #000000;
+}
+
+.active-card {
+    transition: background-color 0.3s ease;
+}
+
+.active-card:hover {
+    background-color: #93c5fd; /* Warna hover default */
 }
