@@ -64,14 +64,14 @@
                         <p class="text-xl font-bold">Rp. 20,000</p>
                     </div>
                 </a>
-                <a href="{{ route('dashboard') }}" class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}" id="kasir-card">
+                <a href="{{ route('transaksi.index') }}" class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}" id="kasir-card">
                     <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
                     <div>
                         <p>Kasir</p>
                         <p class="text-xl font-bold">Transaksi</p>
                     </div>
                 </a>
-                <a href="{{ route('stok-item') }}" class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('stok-item') ? 'bg-blue-400' : '' }}" id="stok-item-card">
+                <a href="{{ route('stok.index') }}" class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('stok-item') ? 'bg-blue-400' : '' }}" id="stok-item-card">
                     <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
                     <div>
                         <p class="text-gray-500">Stok Item</p>

@@ -52,6 +52,7 @@
                 <span class="p-2 bg-blue-500 text-white">1</span>
                 <button class="p-2 bg-gray-200 rounded-r">→</button>
             </div>
+            @yield('isi')
         </div>
         <div class="bg-white p-4 rounded-lg shadow md:col-span-1">
             <h2 class="text-lg font-semibold mb-4">Chart</h2>
