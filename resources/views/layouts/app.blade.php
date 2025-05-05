@@ -99,65 +99,23 @@
     <!-- Script untuk Toggle Sidebar dan Hover Aktif -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-                    document.addEventListener('DOMContentLoaded', function() {
-                                // Toggle Sidebar
-                                const sidebar = document.getElementById('sidebar');
-                                const toggleButton = document.getElementById('toggle-sidebar');
-                                const adminText = document.getElementById('admin-text');
-                                const sidebarTexts = document.querySelectorAll('.sidebar-text');
+            // Toggle Sidebar
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('toggle-sidebar');
+            const adminText = document.getElementById('admin-text');
+            const sidebarTexts = document.querySelectorAll('.sidebar-text');
 
-                                toggleButton.addEventListener('click', function() {
-                                    // Toggle lebar sidebar
-                                    toggleButton.addEventListener('click', function() {
-                                        sidebar.classList.toggle('w-64');
-                                        sidebar.classList.toggle('w-16');
-                                        adminText.classList.toggle('hidden');
-                                        sidebarTexts.forEach(text => {
-                                            text.classList.toggle('hidden');
-                                        });
-                                        toggleButton.querySelector('i').classList.toggle('fa-bars');
-                                        toggleButton.querySelector('i').classList.toggle('fa-times');
-                                    });
-
-                                    // Efek Hover Aktif pada Statistik Cards
-                                    // const cards = document.querySelectorAll('.active-card');
-                                    // const currentPath = window.location.pathname;
-
-                                    // console.log('Current Path:', currentPath); // Debugging
-                                    // console.log('Cards Found:', cards.length); // Debugging
-
-                                    // function activateCurrentCard() {
-                                    //     cards.forEach(card => {
-                                    //         const cardId = card.getAttribute('id');
-                                    //         console.log('Checking Card:', cardId); // Debugging
-                                    //         if (
-                                    //             (cardId === 'pemasukan-card' && currentPath === '/pemasukan') ||
-                                    //             (cardId === 'pengeluaran-card' && currentPath === '/pengeluaran') ||
-                                    //             (cardId === 'kasir-card' && currentPath === '/') ||
-                                    //             (cardId === 'stok-item-card' && currentPath === '/stok-item')
-                                    //         ) {
-                                    //             card.classList.add('bg-blue-400');
-                                    //             console.log('Activated:', cardId); // Debugging
-                                    //         } else {
-                                    //             card.classList.remove('bg-blue-400');
-                                    //         }
-                                    //     });
-                                    // }
-
-                                    // activateCurrentCard();
-
-                                    // cards.forEach(card => {
-                                    //     card.addEventListener('click', function (e) {
-                                    //         // e.preventDefault();
-                                    //         cards.forEach(c => c.classList.remove('bg-blue-400'));
-                                    //         this.classList.add('bg-blue-400');
-                                    //         console.log('Clicked:', this.getAttribute('href')); // Debugging
-                                    //         setTimeout(() => {
-                                    //             window.location.href = this.getAttribute('href');
-                                    //         }, 100);
-                                    //     });
-                                    // });
-                                });
+            toggleButton.addEventListener('click', function() {
+                sidebar.classList.toggle('w-64');
+                sidebar.classList.toggle('w-16');
+                adminText.classList.toggle('hidden');
+                sidebarTexts.forEach(text => {
+                    text.classList.toggle('hidden');
+                });
+                toggleButton.querySelector('i').classList.toggle('fa-bars');
+                toggleButton.querySelector('i').classList.toggle('fa-bars');
+            });
+        });                     
     </script>
 </body>
 
