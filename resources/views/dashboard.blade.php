@@ -2,37 +2,6 @@
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 col-span-3">
-            <div class="bg-white p-4 rounded-lg shadow flex items-center">
-                <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
-                <div>
-                    <p class="text-gray-500">Pemasukan</p>
-                    <p class="text-xl font-bold">Rp. 10,000</p>
-                </div>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow flex items-center">
-                <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
-                <div>
-                    <p class="text-gray-500">Pengeluaran</p>
-                    <p class="text-xl font-bold">Rp. 20,000</p>
-                </div>
-            </div>
-            <div class="bg-blue-500 text-white p-4 rounded-lg shadow flex items-center">
-                <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
-                <div>
-                    <p>Kasir</p>
-                    <p class="text-xl font-bold">Transaksi</p>
-                </div>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow flex items-center">
-                <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
-                <div>
-                    <p class="text-gray-500">Stok Item</p>
-                    <p class="text-xl font-bold">400 Stok</p>
-                </div>
-            </div>
-        </div>
-
         <div class="bg-white p-4 rounded-lg shadow md:col-span-2">
             <h2 class="text-lg font-semibold mb-4">Transaksi</h2>
             <div class="mb-4">
@@ -46,10 +15,10 @@
             </div>
             <div class="flex items-center justify-between mb-4">
                 <div class="flex">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Item</button>
+                    <button class="bg-blue-400 text-white px-3 py-2 rounded-xl">Tambah Item</button>
                 </div>
                 <div class="flex">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded">Bayar & Cetak</button>
+                    <button class="bg-blue-400 text-white px-3 py-2 rounded-xl">Bayar & Cetak</button>
                 </div>
             </div>
             <h3 class="text-lg font-semibold mb-2">Daftar Pesanan</h3>
@@ -83,6 +52,7 @@
                 <span class="p-2 bg-blue-500 text-white">1</span>
                 <button class="p-2 bg-gray-200 rounded-r">→</button>
             </div>
+            @yield('isi')
         </div>
         <div class="bg-white p-4 rounded-lg shadow md:col-span-1">
             <h2 class="text-lg font-semibold mb-4">Chart</h2>
@@ -102,7 +72,7 @@
                 <p>Maret 2021: 90% sale</p>
             </div>
         </div>
-    </div>
+
     @vite('resources/js/app.js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -153,5 +123,7 @@
                 console.error('Canvas element with ID "salesChart" not found');
             }
         });
+
+        
     </script>
 @endsection
