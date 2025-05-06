@@ -8,10 +8,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TransaksiItemController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+    return view('Auth.login');
+})->name('login');
+
+//Login
+// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+//Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 //pemasukan
 Route::get('/pemasukan', [PemasukanController::class, 'index'])->name('pemasukan');
@@ -37,5 +45,3 @@ Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('p
 //transaksi
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
-
-
