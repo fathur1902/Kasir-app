@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TransaksiItemController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('Auth.login');
@@ -45,3 +46,7 @@ Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('p
 //transaksi
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+//Pengaturan
+Route::get('/settings', [UserController::class, 'settings'])->name('settings');
+Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.updatePassword');

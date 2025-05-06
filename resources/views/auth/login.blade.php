@@ -11,7 +11,8 @@
 
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
-            <h1 class="text-white text-4xl font-bold">Logo</h1>
+            <img src="{{ asset('images/logo pasar.png') }}" alt="Logo" class="mx-auto w-48 h-48">
+            {{-- <h1 class="text-white text-4xl font-bold">Logo</h1> --}}
         </div>
 
         <form method="POST" action="{{ route('login') }}" class="bg-transparent">
