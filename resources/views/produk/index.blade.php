@@ -23,9 +23,7 @@
                 </div>
             </div>
             <div class="mt-3 flex justify-end space-x-2">
-                @if(isset($editProduk))
-                <a href="{{ route('produk.index') }}" class="text-sm px-3 py-1 bg-gray-400 text-white rounded">Batal</a>
-                @endif
+                <a href="{{ route('stok.index') }}" class="text-sm px-3 py-1 bg-gray-400 text-white rounded">Kembali</a>
                 <button class="text-sm px-3 py-1 bg-blue-500 text-white rounded">
                     {{ isset($editProduk) ? 'Perbarui' : 'Simpan' }}
                 </button>
@@ -33,13 +31,7 @@
         </form>
     </div>
 
-    @if(session('success'))
-    <div class="bg-green-100 text-green-700 p-2 rounded mb-4">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    <table class="w-full table-auto border-collapse">
+    <table class="w-full mt-6 table-auto border-collapse">
         <thead>
             <tr class="bg-gray-200 text-left">
                 <th class="p-2">No</th>
@@ -56,13 +48,11 @@
                 <td class="p-2">{{ $item->singkatan }}</td>
                 <td class="p-2">
                     <div class="flex space-x-2">
-                        <a href="{{ route('produk.index', ['edit' => $item->id]) }}" class="bg-yellow-500 ...">Edit</a>
-                        <form action="{{ route('produk.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus produk ini?');">
+                        <a href="{{ route('produk.edit', $item->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</a>
+                        <form action="{{ route('produk.destroy', $item->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button class="bg-red-500 text-white px-2 py-1 rounded flex items-center text-sm">
-                                <i class="fas fa-trash mr-1"></i>Hapus
-                            </button>
+                            <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded text-sm">Hapus</button>
                         </form>
                     </div>
                 </td>

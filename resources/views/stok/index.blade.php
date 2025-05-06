@@ -19,14 +19,7 @@
         </div>
     </div>
 
-
-    @if(session('success'))
-    <div class="bg-green-100 text-green-700 p-2 rounded mb-4">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    <table class="w-full border-collapse">
+    <table class="w-full mt-6 border-collapse">
         <thead>
             <tr class="bg-gray-200">
                 <th class="p-2">No</th>
@@ -51,10 +44,10 @@
                 <td class="p-2">Rp {{ number_format($stok->profit) }}</td>
                 <td class="p-2">
                     <a href="{{ route('stok.edit', $stok->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</a>
-                    <form action="{{ route('stok.destroy', $stok->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus data ini?')">
+                    <form action="{{ route('stok.destroy', $stok->id) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
-                        <button class="bg-red-500 text-white px-2 py-1 rounded text-sm">Hapus</button>
+                        <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded text-sm">Hapus</button>
                     </form>
                 </td>
             </tr>

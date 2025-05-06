@@ -25,7 +25,7 @@
             </div>
             <div class="flex justify-between">
                 <a href="{{ route('stok.index') }}" class="text-sm px-3 py-1 bg-gray-400 text-white rounded">Kembali</a>
-                <button class="bg-blue-500 text-white px-4 py-1 rounded">Simpan</button>
+                <button class="bg-blue-400 text-white px-4 py-1 rounded-lg">Simpan</button>
             </div>
         </div>
     </form>

@@ -14,10 +14,10 @@ class stokProduk extends Model
 
     protected $fillable = ['produk_id', 'harga', 'jumlah', 'total', 'profit'];
 
-    public function barang()
-    {
-        return $this->belongsTo(Produk::class, 'produk_id');
-    }
+    // public function barang()
+    // {
+    //     return $this->belongsTo(Produk::class, 'produk_id');
+    // }
 
     public function produk()
     {
