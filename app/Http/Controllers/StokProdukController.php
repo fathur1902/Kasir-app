@@ -68,7 +68,7 @@ class StokProdukController extends Controller
             'profit' => 0, // sementara 0
         ]);
 
-        return redirect()->route('stok-produk.index')->with('success', 'Stok berhasil diperbarui!');
+        return redirect()->route('stok.index')->with('success', 'Stok berhasil diperbarui!');
     }
 
     public function destroy($id)

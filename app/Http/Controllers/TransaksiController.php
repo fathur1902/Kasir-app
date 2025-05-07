@@ -13,7 +13,7 @@ class TransaksiController extends Controller
     public function index()
     {
         $produk = stokProduk::with('produk')->get();
-        $pesanan = Transaksi::with('transaksiItems.produk')->latest()->get();
+        $pesanan = Transaksi::with('transaksiItems.stokProduk')->latest()->get();
         return view('transaksi.index', compact('produk', 'pesanan'));
     }
 
@@ -75,7 +75,7 @@ class TransaksiController extends Controller
 
     public function preview($id)
     {
-        $trx = Transaksi::with('transaksiItems.produk')->findOrFail($id);
+        $trx = Transaksi::with('transaksiItems.stokProduk')->findOrFail($id);
 
         return response()->json([
             'id' => $trx->id,
@@ -83,7 +83,7 @@ class TransaksiController extends Controller
             'total' => $trx->total,
             'items' => $trx->transaksiItems->map(function ($item) {
                 return [
-                    'produk' => ['nama' => $item->produk->nama ?? 'Tidak diketahui'],
+                    'produk' => ['nama' => $item->stokProduk->produk->nama ?? 'Tidak diketahui'],
                     'jumlah' => $item->jumlah,
                     'harga_satuan' => $item->harga_satuan,
                 ];

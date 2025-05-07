@@ -14,5 +14,4 @@ class Transaksi extends Model
     {
         return $this->hasMany(TransaksiItem::class);
     }
-
 }

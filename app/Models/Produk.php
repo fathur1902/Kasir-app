@@ -17,9 +17,4 @@ class Produk extends Model
     {
         return $this->hasMany(stokProduk::class, 'produk_id');
     }
-
-    public function transaksiItems()
-    {
-        return $this->hasMany(TransaksiItem::class);
-    }
 }

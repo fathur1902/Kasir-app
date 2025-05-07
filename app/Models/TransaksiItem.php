@@ -23,9 +23,4 @@ class TransaksiItem extends Model
     {
         return $this->belongsTo(StokProduk::class, 'produk_id');
     }
-
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class);
-    }
 }

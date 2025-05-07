@@ -68,7 +68,7 @@
                 <td class="p-2">{{ $i + 1 }}</td>
                 <td class="p-2">
                     @foreach($trx->transaksiItems as $item)
-                    {{ $item->produk->nama ?? 'Produk tidak ditemukan' }} ({{ $item->jumlah }})@if(!$loop->last), @endif
+                    {{ $item->stokProduk->produk->nama ?? '-' }} ({{ $item->jumlah }})@if(!$loop->last), @endif
                     @endforeach
                 </td>
                 <td class="p-2">Rp. {{ number_format($trx->total) }}</td>
@@ -78,6 +78,7 @@
             @endforeach
         </tbody>
     </table>
+
 </div>
 
 <!-- Modal Produk -->
@@ -105,7 +106,7 @@
         <h2 class="text-lg font-semibold mb-4 text-center">Struk Pembelian</h2>
         <div id="preview-struk" class="text-sm"></div>
         <div class="text-right mt-4">
-            <button onclick="window.print()" class="bg-green-500 text-white px-3 py-1 rounded">Print</button>
+            <button onclick="window.print()" class="bg-green-500 text-black px-3 py-1 rounded">Print</button>
             <button onclick="tutupModalStruk()" class="text-gray-500 ml-2">Tutup</button>
         </div>
     </div>
@@ -235,19 +236,11 @@
                 return res.json();
             })
             .then((res) => {
-                const tbody = document.querySelector('#daftar-pesanan tbody');
-                tbody.innerHTML += `
-            <tr class="border-b">
-                <td class="p-2">${tbody.children.length + 1}</td>
-                <td class="p-2">${struk.map(i => `${i.nama} (${i.qty})`).join(', ')}</td>
-                <td class="p-2">Rp. ${total.toLocaleString()}</td>
-                <td class="p-2">${metode}</td>
-                <td class="p-2 text-blue-500 cursor-pointer" onclick="cetakStrukDariServer(${res.id})">Cetak</td>
-            </tr>`;
                 struk = [];
                 updateStrukTable();
                 updateTotal();
                 alert('Pembayaran berhasil.');
+                location.reload();
             })
             .catch(err => {
                 alert(err.message || 'Terjadi kesalahan saat menyimpan transaksi');
