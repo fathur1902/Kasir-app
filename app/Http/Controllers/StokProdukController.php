@@ -25,8 +25,8 @@ class StokProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'produk_id' => 'required|exists:produk,id',
-            'harga' => 'required|numeric',
+            'produk_id' => 'required|exists:produks,id',
+            'harga' => 'required|integer',
             'jumlah' => 'required|integer',
         ]);
 
@@ -53,8 +53,8 @@ class StokProdukController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'produk_id' => 'required|exists:produk,id',
-            'harga' => 'required|numeric',
+            'produk_id' => 'required|exists:produks,id',
+            'harga' => 'required|integer',
             'jumlah' => 'required|integer',
         ]);
 
@@ -69,7 +69,7 @@ class StokProdukController extends Controller
             'profit' => 0, // sementara 0
         ]);
 
-        return redirect()->route('stok-produk.index')->with('success', 'Stok berhasil diperbarui.');
+        return redirect()->route('stok.index')->with('success', 'Stok berhasil diperbarui.');
     }
 
     public function destroy($id)

@@ -14,14 +14,14 @@ class stokProduk extends Model
 
     protected $fillable = ['produk_id', 'harga', 'jumlah', 'total', 'profit'];
 
-    public function barang()
+    public function produk()
     {
         return $this->belongsTo(Produk::class, 'produk_id');
     }
 
-    public function produk()
+    public function transaksiItems()
     {
-        return $this->belongsTo(Produk::class, 'produk_id');
+        return $this->hasMany(TransaksiItem::class);
     }
 
     // Opsional: menghitung total otomatis saat saving

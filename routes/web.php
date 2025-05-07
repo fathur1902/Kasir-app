@@ -37,5 +37,7 @@ Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('p
 //transaksi
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+Route::get('/transaksi/{id}/preview', [TransaksiController::class, 'preview'])->name('transaksi.preview');
+
 
 

@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Transaksi extends Model
 {
     protected $fillable = [
-        'tanggal', 'metode_pembayaran', 'total', 'bayar', 'kembalian'
+        'metode_pembayaran', 'total', 'bayar', 'kembalian'
     ];
 
-    public function items()
+    public function transaksiItems()
     {
         return $this->hasMany(TransaksiItem::class);
     }
+
 }
