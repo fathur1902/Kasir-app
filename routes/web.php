@@ -8,10 +8,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TransaksiItemController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+    return view('Auth.login');
+})->name('login');
+
+//Login
+// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+//Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 //pemasukan
 Route::get('/pemasukan', [PemasukanController::class, 'index'])->name('pemasukan');
@@ -40,4 +49,6 @@ Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaks
 Route::get('/transaksi/{id}/preview', [TransaksiController::class, 'preview'])->name('transaksi.preview');
 
 
-
+//Pengaturan
+Route::get('/settings', [UserController::class, 'settings'])->name('settings');
+Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.updatePassword');

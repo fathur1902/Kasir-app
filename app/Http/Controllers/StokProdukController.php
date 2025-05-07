@@ -21,12 +21,11 @@ class StokProdukController extends Controller
         return view('stok.create', compact('produkList'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
             'produk_id' => 'required|exists:produks,id',
-            'harga' => 'required|integer',
+            'harga' => 'required|numeric',
             'jumlah' => 'required|integer',
         ]);
 
@@ -40,7 +39,7 @@ class StokProdukController extends Controller
             'profit' => 0, // nanti di-update otomatis
         ]);
 
-        return redirect()->back()->with('success', 'Stok berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Stok baru berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -69,7 +68,7 @@ class StokProdukController extends Controller
             'profit' => 0, // sementara 0
         ]);
 
-        return redirect()->route('stok.index')->with('success', 'Stok berhasil diperbarui.');
+        return redirect()->route('stok-produk.index')->with('success', 'Stok berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -77,6 +76,6 @@ class StokProdukController extends Controller
         $stok = StokProduk::findOrFail($id);
         $stok->delete();
 
-        return redirect()->back()->with('success', 'Stok berhasil dihapus.');
+        return redirect()->back()->with('success', 'Stok berhasil dihapus!');
     }
 }

@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Kasir</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo pasar.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Tambahkan CDN SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite('resources/css/app.css')
 </head>
 
@@ -29,13 +32,14 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" class="flex items-center p-2 hover:bg-white rounded">
+                        <a href="{{ route('settings') }}"
+                            class="flex items-center p-2 rounded {{ request()->routeIs('settings') ? 'bg-white' : 'hover:bg-white' }}">
                             <i class="fas fa-cog w-6 h-6 mr-2"></i>
                             <span class="sidebar-text">Settings</span>
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" class="flex items-center p-2 hover:bg-white rounded">
+                        <a href="#" id="quit-button" class="flex items-center p-2 hover:bg-white rounded">
                             <i class="fas fa-sign-out-alt w-6 h-6 mr-2"></i>
                             <span class="sidebar-text">Quit</span>
                         </a>
@@ -50,7 +54,7 @@
                 <button id="toggle-sidebar" class="focus:outline-none">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
-                <h1 class="text-2xl font-bold">Inpo Nama Toko Wo</h1>
+                <h1 class="text-2xl font-bold">DigiPaw</h1>
                 <div class="w-10"></div>
             </div>
             <!-- Statistik Cards -->
@@ -88,7 +92,7 @@
                     <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
                     <div>
                         <p class="text-gray-500">Stok Item</p>
-                        <p class="text-xl font-bold">400 Stok</p>
+                        <p class="text-xl font-bold">{{ number_format($totalStok) }} Stok</p>
                     </div>
                 </a>
             </div>
@@ -96,10 +100,9 @@
         </div>
     </div>
 
-    <!-- Script untuk Toggle Sidebar dan Hover Aktif -->
+    <!-- Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Toggle Sidebar
             const sidebar = document.getElementById('sidebar');
             const toggleButton = document.getElementById('toggle-sidebar');
             const adminText = document.getElementById('admin-text');
@@ -112,10 +115,61 @@
                 sidebarTexts.forEach(text => {
                     text.classList.toggle('hidden');
                 });
-                toggleButton.querySelector('i').classList.toggle('fa-bars');
-                toggleButton.querySelector('i').classList.toggle('fa-bars');
             });
-        });                     
+
+            // SweetAlert untuk tombol Quit
+            const quitBtn = document.getElementById('quit-button');
+            quitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin ingin keluar?',
+                    text: "Anda akan diarahkan ke halaman login.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, keluar!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('login') }}";
+                    }
+                });
+            });
+            @if (session('success'))
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6'
+                });
+            @endif
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const form = this.closest('form') || this; // Mendapatkan form atau elemen (jika bukan form)
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: "Data stok ini akan dihapus permanen!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if (form.tagName === 'FORM') {
+                                form.submit(); // Submit form jika konfirmasi
+                            } else {
+                                window.location.href = form.href; // Redirect jika link
+                            }
+                        }
+                    });
+                });
+            });
+        });
     </script>
 </body>
 
