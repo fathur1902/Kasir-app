@@ -19,8 +19,8 @@
             @csrf
 
             <div class="mb-4">
-                <label class="block text-white font-bold mb-2 uppercase text-sm" for="username">Username</label>
-                <input id="username" name="username" type="text" placeholder="Username . . ."
+                <label class="block text-white font-bold mb-2 uppercase text-sm" for="email">Email</label>
+                <input id="email" name="email" type="text" placeholder="U email . . ."
                     class="w-full px-4 py-3 rounded-full shadow-md text-gray-700 focus:outline-none">
             </div>
 

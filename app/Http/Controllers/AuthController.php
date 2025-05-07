@@ -16,11 +16,12 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'username' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        // Cek apakah login berhasil menggunakan username
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            // Redirect ke halaman yang diinginkan setelah login
             return redirect()->intended('/');
         }
 

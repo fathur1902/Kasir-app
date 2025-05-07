@@ -39,10 +39,13 @@
                         </a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" id="quit-button" class="flex items-center p-2 hover:bg-white rounded">
-                            <i class="fas fa-sign-out-alt w-6 h-6 mr-2"></i>
-                            <span class="sidebar-text">Quit</span>
-                        </a>
+                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                            @csrf
+                            <button type="submit" id="quit-button" class="flex items-center p-2 hover:bg-white rounded w-full text-left">
+                                <i class="fas fa-sign-out-alt w-6 h-6 mr-2"></i>
+                                <span class="sidebar-text">Quit</span>
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </nav>
@@ -136,15 +139,15 @@
                     }
                 });
             });
-            @if (session('success'))
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: "{{ session('success') }}",
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#3085d6'
-                });
-            @endif
+            // @if(session('success'))
+            // Swal.fire({
+            //     title: 'Berhasil!',
+            //     text: "{{ session('success') }}",
+            //     icon: 'success',
+            //     confirmButtonText: 'OK',
+            //     confirmButtonColor: '#3085d6'
+            // });
+            // @endif
             document.querySelectorAll('.delete-btn').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
