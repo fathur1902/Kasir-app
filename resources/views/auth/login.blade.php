@@ -11,7 +11,7 @@
 
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
-            <img src="{{ asset('images/logo pasar.png') }}" alt="Logo" class="mx-auto w-48 h-48">
+            <img src="{{ asset('images/logo_pasar.png') }}" alt="Logo" class="mx-auto w-48 h-48">
             {{-- <h1 class="text-white text-4xl font-bold">Logo</h1> --}}
         </div>
 
@@ -20,13 +20,13 @@
 
             <div class="mb-4">
                 <label class="block text-white font-bold mb-2 uppercase text-sm" for="email">Email</label>
-                <input id="email" name="email" type="text" placeholder="U email . . ."
+                <input id="email" name="email" type="text" placeholder="Email"
                     class="w-full px-4 py-3 rounded-full shadow-md text-gray-700 focus:outline-none">
             </div>
 
             <div class="mb-6">
                 <label class="block text-white font-bold mb-2 uppercase text-sm" for="password">Password</label>
-                <input id="password" name="password" type="password" placeholder="Password . . ."
+                <input id="password" name="password" type="password" placeholder="Password"
                     class="w-full px-4 py-3 rounded-full shadow-md text-gray-700 focus:outline-none">
             </div>
 

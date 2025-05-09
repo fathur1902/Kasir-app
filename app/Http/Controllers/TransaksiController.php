@@ -81,6 +81,7 @@ class TransaksiController extends Controller
             'id' => $trx->id,
             'metode_pembayaran' => $trx->metode_pembayaran,
             'total' => $trx->total,
+            'bayar' => $trx->bayar ?? $trx->total,
             'items' => $trx->transaksiItems->map(function ($item) {
                 return [
                     'produk' => ['nama' => $item->stokProduk->produk->nama ?? 'Tidak diketahui'],

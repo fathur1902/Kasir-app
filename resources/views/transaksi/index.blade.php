@@ -78,7 +78,6 @@
             @endforeach
         </tbody>
     </table>
-
 </div>
 
 <!-- Modal Produk -->
@@ -251,11 +250,48 @@
         fetch(`{{ route('transaksi.preview', ':id') }}`.replace(':id', id))
             .then(res => res.json())
             .then(trx => {
-                let html = `<p><strong>Metode:</strong> ${trx.metode_pembayaran}</p>`;
-                html += `<ul class="mb-2">` + trx.items.map(i =>
-                    `<li>${i.produk.nama} x ${i.jumlah} = Rp. ${(i.harga_satuan * i.jumlah).toLocaleString()}</li>`
-                ).join('') + `</ul>`;
-                html += `<p><strong>Total:</strong> Rp. ${trx.total.toLocaleString()}</p>`;
+                // Hitung total kuantitas
+                const totalQty = trx.items.reduce((sum, item) => sum + item.jumlah, 0);
+
+                // Format tanggal dan waktu 
+                const now = new Date();
+                const tanggal = now.toISOString().split('T')[0]; // Format YYYY-MM-DD
+                const waktu = now.toTimeString().split(' ')[0]; // Format HH:mm:ss
+                let html = `
+                    <div class="text-center">
+                        <div class="mb-2">
+                            <img src="{{ asset('images/logo_pasar.png') }}" alt="Store Icon" class="mx-auto w-12 h-12" /> <!-- Ganti path ikon sesuai kebutuhan -->
+                        </div>
+                        <h2 class="text-lg font-bold">DigiPaw</h2>
+                        <p class="text-xs">Jl. Dr. Rajiman No.50, Gajahan, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57122</p>
+                        <p class="text-xs">Surakarta</p>
+                        <hr class="my-2 border-t border-dashed border-gray-500" />
+                    </div>
+                    <div class="text-xs">
+                        <p>${tanggal} ${waktu}</p>
+                        <p>Sheila</p>
+                        <hr class="my-2 border-t border-dashed border-gray-500" />
+                    </div>
+                    <div class="text-xs">
+                        ${trx.items.map((item, index) => `
+                            <p>${index + 1}. ${item.produk.nama}</p>
+                            <p class="ml-4">${item.jumlah} x ${item.harga_satuan.toLocaleString()} = Rp. ${(item.harga_satuan * item.jumlah).toLocaleString()}</p>
+                        `).join('')}
+                        <hr class="my-2 border-t border-dashed border-gray-500" />
+                    </div>
+                    <div class="text-xs">
+                        <p>TOTAL QTY: ${totalQty}</p>
+                        <p class="mt-1">Sub Total Rp ${trx.total.toLocaleString()}</p>
+                        <p>TOTAL Rp ${trx.total.toLocaleString()}</p>
+                        <p>Bayar (${trx.metode_pembayaran.toUpperCase()}) Rp ${trx.bayar.toLocaleString()}</p>
+                        <p>Kembali Rp ${(trx.bayar - trx.total).toLocaleString()}</p>
+                    </div>
+                    <div class="text-center text-xs mt-2">
+                        <p>Terimakasih Telah Berbelanja</p>
+                    </div>
+                `;
+
+                // Tampilkan struk di modal
                 document.getElementById('preview-struk').innerHTML = html;
                 document.getElementById('modal-struk').classList.replace('hidden', 'flex');
             })
