@@ -103,6 +103,7 @@
 
     <!-- Script -->
     <script>
+        console.log('script dimuat')
         document.addEventListener('DOMContentLoaded', function() {
             console.log('diklik');
             const sidebar = document.getElementById('sidebar');

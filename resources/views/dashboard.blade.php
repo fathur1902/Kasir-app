@@ -63,7 +63,6 @@
             const ctx = document.getElementById('salesChart');
             if (ctx) {
                 const context = ctx.getContext('2d');
-                console.log('Canvas context:', context);
                 new Chart(context, {
                     type: 'line',
                     data: {

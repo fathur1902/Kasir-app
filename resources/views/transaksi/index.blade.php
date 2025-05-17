@@ -87,8 +87,8 @@
         <div class="flex flex-col gap-2">
             @foreach($produk as $item)
             <div class="border p-2 rounded cursor-pointer hover:bg-blue-100"
-                onclick="tambahLangsung('{{ $item->id }}', '{{ $item->produk_id }}', {{ $item->harga }})">
-                <p class="font-medium">{{ $item->produk->nama }}</p>
+                onclick="tambahLangsung('{{ $item->id }}', '{{ $item->produk ? addslashes($item->produk->nama) : 'Produk Tidak Ditemukan' }}', {{ $item->harga }})">
+                <p class="font-medium">{{ $item->produk->nama ?? 'Produk Tidak Ditemukan' }}</p>
                 <p class="text-sm text-gray-500">Rp {{ number_format($item->harga) }}</p>
             </div>
             @endforeach
@@ -215,7 +215,7 @@
             metode_pembayaran: metode,
             total: total,
             bayar: bayar,
-            items: struk.map(item => ({
+            items: strCTCuk.map(item => ({
                 produk_id: parseInt(item.id),
                 jumlah: item.qty,
                 harga_satuan: item.harga
@@ -260,7 +260,7 @@
                 let html = `
                     <div class="text-center">
                         <div class="mb-2">
-                            <img src="{{ asset('images/logo_pasar.png') }}" alt="Store Icon" class="mx-auto w-12 h-12" /> <!-- Ganti path ikon sesuai kebutuhan -->
+                            <img src="{{ asset('images/logo_pasar.png') }}" alt="Store Icon" class="mx-auto w-12 h-12" />
                         </div>
                         <h2 class="text-lg font-bold">DigiPaw</h2>
                         <p class="text-xs">Jl. Dr. Rajiman No.50, Gajahan, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57122</p>
@@ -300,7 +300,6 @@
                 console.error(err);
             });
     }
-
 
     function tutupModalStruk() {
         document.getElementById('modal-struk').classList.replace('flex', 'hidden');
