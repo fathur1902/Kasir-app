@@ -35,6 +35,7 @@ Route::post('/forgot-password', [AuthController::class, 'sendPasswordResetLink']
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
+
 // Rute Register (hanya bisa diakses oleh admin)
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
@@ -85,9 +86,12 @@ Route::middleware('auth')->group(function () {
 });
 
 // Pengaturan User (ganti password)
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/settings', [UserController::class, 'settings'])->name('settings');
     Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.updatePassword');
+    Route::get('/settings/password/{id}/edit', [UserController::class, 'editPassword'])->name('settings.editPassword');
+    Route::delete('/settings/user/{id}', [UserController::class, 'deleteUser'])->name('settings.deleteUser');
+    Route::put('/users/{id}', [UserController::class, 'updateUser'])->name('users.update');
 });
 
 // Auth Routes (Jika menggunakan Breeze, rute ini sudah otomatis terpasang)

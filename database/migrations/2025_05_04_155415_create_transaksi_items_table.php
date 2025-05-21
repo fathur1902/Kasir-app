@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->integer('harga_satuan');
             $table->integer('total_harga');
+            $table->decimal('keuntungan', 10, 2)->default(0);
             $table->timestamps();
         });
     }

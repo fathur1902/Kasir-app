@@ -14,6 +14,7 @@
                 <th class="p-2">No</th>
                 <th class="p-2">Nama Produk</th>
                 <th class="p-2">Jumlah</th>
+                <th class="p-2">Harga Satuan</th>
                 <th class="p-2">Subtotal</th>
                 <th class="p-2">Aksi</th>
             </tr>
@@ -89,7 +90,7 @@
             <div class="border p-2 rounded cursor-pointer hover:bg-blue-100"
                 onclick="tambahLangsung('{{ $item->id }}', '{{ $item->produk ? addslashes($item->produk->nama) : 'Produk Tidak Ditemukan' }}', {{ $item->harga }})">
                 <p class="font-medium">{{ $item->produk->nama ?? 'Produk Tidak Ditemukan' }}</p>
-                <p class="text-sm text-gray-500">Rp {{ number_format($item->harga) }}</p>
+                <p class="text-sm text-gray-500">Rp {{ number_format($item->harga * 1.10) }}</p>
             </div>
             @endforeach
         </div>
@@ -125,6 +126,8 @@
 
     function tambahLangsung(id, nama, harga) {
         harga = parseFloat(harga);
+        const hargaDenganUntung = Math.round(harga * 1.10);
+
         const existing = struk.find(item => item.id === id);
         if (existing) {
             existing.qty += 1;
@@ -134,8 +137,8 @@
                 id,
                 nama,
                 qty: 1,
-                harga,
-                subtotal: harga
+                harga: hargaDenganUntung,
+                subtotal: hargaDenganUntung
             });
         }
         updateStrukTable();
@@ -150,16 +153,18 @@
         struk.forEach((item, i) => {
             tbody.innerHTML +=
                 `<tr class="border-b">
-                    <td class="p-2">${i + 1}</td>
-                    <td class="p-2">${item.nama}</td>
-                    <td class="p-2">
-                        <input type="number" min="1" value="${item.qty}" onchange="ubahQty(${i}, this.value)" class="w-16 p-1 border rounded text-center">
-                    </td>
-                    <td class="p-2">Rp ${item.subtotal.toLocaleString()}</td>
-                    <td class="p-2 text-red-500 cursor-pointer" onclick="hapusItem(${i})">Hapus</td>
-                </tr>`;
+                <td class="p-2">${i + 1}</td>
+                <td class="p-2">${item.nama}</td>
+                <td class="p-2">
+                    <input type="number" min="1" value="${item.qty}" onchange="ubahQty(${i}, this.value)" class="w-16 p-1 border rounded text-center">
+                </td>
+                <td class="p-2">Rp ${item.harga.toLocaleString()}</td>
+                <td class="p-2">Rp ${item.subtotal.toLocaleString()}</td>
+                <td class="p-2 text-red-500 cursor-pointer" onclick="hapusItem(${i})">Hapus</td>
+            </tr>`;
         });
     }
+
 
     function ubahQty(index, newQty) {
         const qty = parseInt(newQty);
@@ -215,7 +220,7 @@
             metode_pembayaran: metode,
             total: total,
             bayar: bayar,
-            items: strCTCuk.map(item => ({
+            items: struk.map(item => ({
                 produk_id: parseInt(item.id),
                 jumlah: item.qty,
                 harga_satuan: item.harga
