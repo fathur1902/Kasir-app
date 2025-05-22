@@ -22,6 +22,7 @@
             </div>
             <nav>
                 <ul>
+                    @if (Auth::user()->role === 'admin')    
                     <li class="mb-4">
                         <a href="{{ route('dashboard') }}"
                             class="flex items-center p-2 rounded {{ request()->routeIs('dashboard') ? 'bg-white' : 'hover:bg-white' }}">
@@ -29,6 +30,8 @@
                             <span class="sidebar-text">Dashboard</span>
                         </a>
                     </li>
+                    @endif
+                    @if(Auth::user()->role === 'admin')
                     <li class="mb-4">
                         <a href="{{ route('settings') }}"
                             class="flex items-center p-2 rounded {{ request()->routeIs('settings') ? 'bg-white' : 'hover:bg-white' }}">
@@ -36,6 +39,7 @@
                             <span class="sidebar-text">Settings</span>
                         </a>
                     </li>
+                    @endif
                     <li class="mb-4">
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
@@ -87,6 +91,7 @@
                         <p class="text-xl font-bold">Transaksi</p>
                     </div>
                 </a>
+                @if(Auth::user()->role === 'admin')
                 <a href="{{ route('stok.index') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('stok-item') ? 'bg-blue-400' : '' }}"
                     id="stok-item-card">
@@ -96,6 +101,7 @@
                         <p class="text-xl font-bold">{{ number_format($totalStok) }} Stok</p>
                     </div>
                 </a>
+                @endif
             </div>
             @yield('content')
         </div>

@@ -21,8 +21,12 @@ class AuthController extends Controller
 
         // Cek apakah login berhasil menggunakan username
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            // Redirect ke halaman yang diinginkan setelah login
-            return redirect()->intended('/');
+            // Redirect berdasarkan role pengguna
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->route('transaksi.index');
+            }
         }
 
         return back()->withErrors([
