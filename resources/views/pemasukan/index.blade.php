@@ -25,7 +25,6 @@
             <tr class="bg-gray-200">
                 <th class="p-2 text-left">No</th>
                 <th class="p-2 text-left">Tanggal</th>
-                <th class="p-2 text-left">Kode Transaksi</th>
                 <th class="p-2 text-left">Metode</th>
                 <th class="p-2 text-left">Keuntungan</th>
                 <th class="p-2 text-left">Detail Item</th>
@@ -46,7 +45,6 @@
             <tr class="border-b">
                 <td class="p-2">{{ $index + 1 }}</td>
                 <td class="p-2">{{ $transaksi->created_at->format('d-m-Y') }}</td>
-                <td class="p-2">{{ $transaksi->kode }}</td>
                 <td class="p-2 capitalize">{{ $transaksi->metode_pembayaran }}</td>
                 <td class="p-2 text-green-600 font-semibold">Rp {{ number_format( $totalProfit ) }}</td>
                 <td class="p-2">

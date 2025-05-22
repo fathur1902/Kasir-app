@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\stokProduk;
 use App\Models\Produk;
+use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
+
 
 class StokProdukController extends Controller
 {
@@ -26,20 +28,40 @@ class StokProdukController extends Controller
         $request->validate([
             'produk_id' => 'required|exists:produks,id',
             'harga' => 'required|numeric',
-            'jumlah' => 'required|integer',
+            'jumlah' => 'required|integer|min:1',
         ]);
 
-        $total = $request->harga * $request->jumlah;
+        // Cari stok produk yang sudah ada
+        $stok = StokProduk::where('produk_id', $request->produk_id)->first();
 
-        StokProduk::create([
-            'produk_id' => $request->produk_id,
-            'harga' => $request->harga,
-            'jumlah' => $request->jumlah,
-            'total' => $total,
-            'profit' => 0, // nanti di-update otomatis
+        $totalTambah = $request->harga * $request->jumlah;
+
+        if ($stok) {
+            // Update stok dan harga, total dan profit (profit tetap 0 dulu)
+            $stok->jumlah += $request->jumlah;
+            $stok->harga = $request->harga;
+            $stok->total = $stok->harga * $stok->jumlah;
+            $stok->profit = 0; // update sesuai kebutuhan
+            $stok->save();
+        } else {
+            // Buat stok baru
+            $stok = StokProduk::create([
+                'produk_id' => $request->produk_id,
+                'harga' => $request->harga,
+                'jumlah' => $request->jumlah,
+                'total' => $totalTambah,
+                'profit' => 0,
+            ]);
+        }
+
+        // Simpan ke tabel pengeluaran
+        Pengeluaran::create([
+            'stok_produk_id' => $stok->id,
+            'jumlah_tambah' => $request->jumlah,
+            'total' => $totalTambah,
         ]);
 
-        return redirect()->back()->with('success', 'Stok baru berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Stok berhasil ditambahkan dan pengeluaran tercatat!');
     }
 
     public function edit($id)

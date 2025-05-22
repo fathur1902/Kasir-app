@@ -10,9 +10,6 @@
     </div>
 
     <div class="flex justify-between items-center mt-2">
-        <a href="{{ route('stok.create') }}" class="bg-blue-400 text-white text-sm px-3 py-1 rounded-xl flex items-center">
-            <i class="fas fa-plus mr-2"></i> Tambah Stok
-        </a>
         <div class="relative">
             <input type="text" placeholder="Cari Barang" class="pl-10 pr-4 py-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
             <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
