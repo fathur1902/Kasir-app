@@ -274,7 +274,7 @@
                     </div>
                     <div class="text-xs">
                         <p>${tanggal} ${waktu}</p>
-                        <p>Sheila</p>
+                        <p>{{ Auth::user()->name }}</p>
                         <hr class="my-2 border-t border-dashed border-gray-500" />
                     </div>
                     <div class="text-xs">

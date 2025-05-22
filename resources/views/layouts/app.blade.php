@@ -18,7 +18,7 @@
         <div id="sidebar" class="w-64 bg-blue-400 p-6 transition-all duration-300 rounded-m">
             <div class="flex items-center mb-8">
                 <i class="fas fa-user mr-2"></i>
-                <span id="admin-text" class="text-lg font-semibold">ADMIN</span>
+                <span id="admin-text" class="text-lg font-semibold">{{ Auth::user()->name }}</span>
             </div>
             <nav>
                 <ul>
@@ -137,7 +137,7 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "{{ route('login') }}";
+                        quitBtn.closest('form').submit();
                     }
                 });
             });
