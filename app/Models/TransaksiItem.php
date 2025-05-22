@@ -11,7 +11,8 @@ class TransaksiItem extends Model
         'produk_id',
         'jumlah',
         'harga_satuan',
-        'total_harga'
+        'total_harga',
+        'keuntungan',
     ];
 
     public function transaksi()

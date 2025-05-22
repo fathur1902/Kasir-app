@@ -43,15 +43,6 @@ class TransaksiController extends Controller
 
         // Proses setiap item dalam transaksi
         foreach ($request->items as $item) {
-            // Simpan detail transaksi item
-            $transaksi->transaksiItems()->create([
-                'produk_id' => $item['produk_id'],
-                'jumlah' => $item['jumlah'],
-                'harga_satuan' => $item['harga_satuan'],
-                'total_harga' => $item['jumlah'] * $item['harga_satuan'],
-            ]);
-
-            // Cari stok produk berdasarkan id
             $stokProduk = StokProduk::find($item['produk_id']);
 
             if (!$stokProduk) {
@@ -59,16 +50,35 @@ class TransaksiController extends Controller
             }
 
             $stok = $stokProduk->jumlah;
-
-            // Cek apakah stok cukup
             if ($stok < $item['jumlah']) {
                 return response()->json(['error' => 'Stok produk tidak mencukupi.'], 400);
             }
+
+            // Hitung keuntungan 10% dari harga modal stokProduk
+            $hargaModal = $stokProduk->harga; // pastikan kolom ini ada
+            $keuntunganPerItem = $hargaModal * 0.10;
+
+            // Simpan detail transaksi item sekaligus keuntungan
+            $transaksi->transaksiItems()->create([
+                'produk_id' => $item['produk_id'],
+                'jumlah' => $item['jumlah'],
+                'harga_satuan' => $item['harga_satuan'],
+                'total_harga' => $item['jumlah'] * $item['harga_satuan'],
+                'keuntungan' => $keuntunganPerItem * $item['jumlah'],
+            ]);
 
             // Kurangi stok produk
             $stokProduk->jumlah -= $item['jumlah'];
             $stokProduk->save();
         }
+        Log::info('Keuntungan: ', [
+            'produk_id' => $item['produk_id'],
+            'harga_modal' => $hargaModal,
+            'keuntungan_per_item' => $keuntunganPerItem,
+            'jumlah' => $item['jumlah'],
+            'total_keuntungan' => $keuntunganPerItem * $item['jumlah'],
+        ]);
+
 
         return response()->json(['success' => true, 'message' => 'Transaksi berhasil.']);
     }
