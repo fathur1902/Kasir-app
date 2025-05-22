@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
 // Rute untuk Pemasukan (hanya bisa diakses oleh yang sudah login)
 Route::middleware('auth')->group(function () {
     Route::get('/pemasukan', [PemasukanController::class, 'index'])->name('pemasukan');
+    Route::get('/pemasukan/export', [PemasukanController::class, 'export'])->name('pemasukan.export');
 });
 
 // Rute untuk Pengeluaran (hanya bisa diakses oleh yang sudah login)
