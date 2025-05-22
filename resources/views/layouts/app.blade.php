@@ -15,7 +15,7 @@
 <body class="bg-gray-100 font-sans">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <div id="sidebar" class="w-64 bg-blue-400 p-6 transition-all duration-300 rounded-xl">
+        <div id="sidebar" class="w-64 bg-blue-400 p-6 transition-all duration-300 rounded-m">
             <div class="flex items-center mb-8">
                 <i class="fas fa-user mr-2"></i>
                 <span id="admin-text" class="text-lg font-semibold">ADMIN</span>
@@ -103,17 +103,14 @@
 
     <!-- Script -->
     <script>
-        console.log('script dimuat')
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('diklik');
-            const sidebar = document.getElementById('sidebar');
-            const toggleButton = document.getElementById('toggle-sidebar');
-            console.log('togle', toggleButton);
-            const adminText = document.getElementById('admin-text');
-            const sidebarTexts = document.querySelectorAll('.sidebar-text');
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggle-sidebar');
+        const adminText = document.getElementById('admin-text');
+        const sidebarTexts = document.querySelectorAll('.sidebar-text');
 
+        if (toggleButton) {
             toggleButton.addEventListener('click', function() {
-                console.log('dipencet')
                 sidebar.classList.toggle('w-64');
                 sidebar.classList.toggle('w-16');
                 adminText.classList.toggle('hidden');
@@ -121,14 +118,17 @@
                     text.classList.toggle('hidden');
                 });
             });
+        } else {
+            console.log('Tombol toggle-sidebar tidak ditemukan');
+        }
 
-            // SweetAlert untuk tombol Quit
-            const quitBtn = document.getElementById('quit-button');
+        const quitBtn = document.getElementById('quit-button');
+        if (quitBtn) {
             quitBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Yakin ingin keluar?',
-                    text: "Anda akan diarahkan ke halaman login.",
+                    text: 'Anda akan diarahkan ke halaman login.',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -141,40 +141,42 @@
                     }
                 });
             });
-            // @if(session('success'))
-            // Swal.fire({
-            //     title: 'Berhasil!',
-            //     text: "{{ session('success') }}",
-            //     icon: 'success',
-            //     confirmButtonText: 'OK',
-            //     confirmButtonColor: '#3085d6'
-            // });
-            // @endif
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const form = this.closest('form') || this; // Mendapatkan form atau elemen (jika bukan form)
-                    Swal.fire({
-                        title: 'Yakin ingin menghapus?',
-                        text: "Data stok ini akan dihapus permanen!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            if (form.tagName === 'FORM') {
-                                form.submit(); // Submit form jika konfirmasi
-                            } else {
-                                window.location.href = form.href; // Redirect jika link
-                            }
+        }
+        @if(session('success'))
+            Swal.fire({
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+        @endif
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = this.closest('form') || this;
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: 'Data stok ini akan dihapus permanen!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (form.tagName === 'FORM') {
+                            form.submit();
+                        } else {
+                            window.location.href = form.href;
                         }
-                    });
+                    }
                 });
             });
         });
+    });
     </script>
 </body>
 
