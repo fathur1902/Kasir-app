@@ -7,19 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\stokProduk;
 use Illuminate\Support\Facades\Log;
 
-
 class TransaksiController extends Controller
 {
     public function index()
     {
         $produk = stokProduk::with('produk')->get();
         $pesanan = Transaksi::with('transaksiItems.stokProduk')->latest()->get();
-        return view('transaksi.index', compact('produk', 'pesanan'));
+        $totalPemasukan = Transaksi::sum('total');
+        return view('transaksi.index', compact('produk', 'pesanan', 'totalPemasukan'));
     }
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'metode_pembayaran' => 'required|string|in:cash,qris',
             'total' => 'required|numeric',
@@ -40,10 +39,8 @@ class TransaksiController extends Controller
         if (!$transaksi || !$transaksi->id) {
             return response()->json(['error' => 'Gagal membuat transaksi.'], 500);
         }
-
-        // Proses setiap item dalam transaksi
         foreach ($request->items as $item) {
-            $stokProduk = StokProduk::find($item['produk_id']);
+            $stokProduk = stokProduk::find($item['produk_id']);
 
             if (!$stokProduk) {
                 return response()->json(['error' => 'Produk tidak ditemukan di stok.'], 400);
@@ -54,11 +51,8 @@ class TransaksiController extends Controller
                 return response()->json(['error' => 'Stok produk tidak mencukupi.'], 400);
             }
 
-            // Hitung keuntungan 10% dari harga modal stokProduk
-            $hargaModal = $stokProduk->harga; // pastikan kolom ini ada
+            $hargaModal = $stokProduk->harga;
             $keuntunganPerItem = $hargaModal * 0.10;
-
-            // Simpan detail transaksi item sekaligus keuntungan
             $transaksi->transaksiItems()->create([
                 'produk_id' => $item['produk_id'],
                 'jumlah' => $item['jumlah'],
@@ -66,8 +60,6 @@ class TransaksiController extends Controller
                 'total_harga' => $item['jumlah'] * $item['harga_satuan'],
                 'keuntungan' => $keuntunganPerItem * $item['jumlah'],
             ]);
-
-            // Kurangi stok produk
             $stokProduk->jumlah -= $item['jumlah'];
             $stokProduk->save();
         }
@@ -78,7 +70,6 @@ class TransaksiController extends Controller
             'jumlah' => $item['jumlah'],
             'total_keuntungan' => $keuntunganPerItem * $item['jumlah'],
         ]);
-
 
         return response()->json(['success' => true, 'message' => 'Transaksi berhasil.']);
     }

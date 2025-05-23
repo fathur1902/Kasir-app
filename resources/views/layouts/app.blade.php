@@ -70,7 +70,7 @@
                     <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
                     <div>
                         <p class="text-gray-500">Pemasukan</p>
-                        <p class="text-xl font-bold">Rp. 10,000</p>
+                        <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
                     </div>
                 </a>
                 <a href="{{ route('pengeluaran') }}"

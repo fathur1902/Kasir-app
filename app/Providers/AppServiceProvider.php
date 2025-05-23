@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\StokProduk;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layouts.app', function ($view) {
             $totalStok = StokProduk::sum('jumlah');
             $view->with('totalStok', $totalStok);
+        });
+        View::composer('layouts.app', function ($view) {
+            $totalPemasukan = Transaksi::sum('total');
+            $view->with('totalPemasukan', $totalPemasukan);
         });
     }
 }

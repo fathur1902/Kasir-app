@@ -3,21 +3,22 @@
 @section('content')
 <div class="bg-white p-4 rounded-lg shadow col-span-1 md:col-span-3">
     <div class="mb-4">
+        <form action="{{ route('pemasukan.export') }}" method="GET" class="flex flex-col space-y-2">
         <div class="flex justify-between items-center">
             <h2 class="text-lg font-semibold text-blue-600">Pemasukan</h2>
-            <div class="flex space-x-2">
-                <form action="{{ route('pemasukan.export') }}" method="GET">
-                    <select name="filter" class="text-sm p-1 rounded border">
-                        <option value="harian">Harian</option>
-                        <option value="mingguan">Mingguan</option>
-                        <option value="bulanan">Bulanan</option>
-                    </select>
-                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded ml-2">
-                        Export
-                    </button>
-                </form>
+                <select name="filter" class="text-sm p-1 rounded border">
+                    <option value="harian">Harian</option>
+                    <option value="mingguan">Mingguan</option>
+                    <option value="bulanan">Bulanan</option>
+                </select>
             </div>
-        </div>
+            <div class="flex justify-start">
+                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">                    
+                    <i class="fas fa-file-export mr-2"></i>
+                    Export
+                </button>
+            </div>
+        </form>
     </div>
 
     <table class="w-full border-collapse table-bordered">
