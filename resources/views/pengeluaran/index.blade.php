@@ -19,7 +19,7 @@
                 </button>
                 <a href="{{ route('stok.create') }}" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">
                     <i class="fas fa-plus mr-2"></i> Tambah Kebutuhan
-                </a>
+                </a>
             </div>
         </form>
     </div>
@@ -42,36 +42,8 @@
                 <td class="p-2">{{ $pengeluaran->stokProduk->produk->nama ?? '-' }}</td>
                 <td class="p-2">{{ $pengeluaran->jumlah_tambah }}</td>
                 <td class="p-2">
-                    <button onclick="toggleDetail({{ $pengeluaran->id }})" 
+                    <button onclick="showDetail({{ $pengeluaran->id }})" 
                         class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Detail</button>
-                </td>
-            </tr>
-            <tr id="detail-{{ $pengeluaran->id }}" class="hidden bg-gray-50">
-                <td colspan="5" class="p-2">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr>
-                                <th class="text-left p-1">Produk</th>
-                                <th class="text-left p-1">Harga Satuan</th>
-                                <th class="text-left p-1">Jumlah Tambah</th>
-                                <th class="text-left p-1">Total Harga</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $produk = $pengeluaran->stokProduk->produk ?? null;
-                                $harga = $pengeluaran->stokProduk->harga ?? 0;
-                                $jumlah = $pengeluaran->jumlah_tambah;
-                                $totalHarga = $harga * $jumlah;
-                            @endphp
-                            <tr>
-                                <td class="p-1">{{ $produk->nama ?? '-' }}</td>
-                                <td class="p-1">Rp {{ number_format($harga) }}</td>
-                                <td class="p-1">{{ $jumlah }}</td>
-                                <td class="p-1">Rp {{ number_format($totalHarga) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </td>
             </tr>
             @endforeach
@@ -85,9 +57,69 @@
 </div>
 
 <script>
-    function toggleDetail(id) {
-        const row = document.getElementById(`detail-${id}`);
-        row.classList.toggle('hidden');
+    function showDetail(id) {
+        const pengeluarans = @json($pengeluarans->keyBy('id'));
+        const pengeluaran = pengeluarans[id];
+
+        if (!pengeluaran) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Data tidak ditemukan untuk ID: ' + id,
+                icon: 'error',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#3085d6',
+            });
+            return;
+        }
+
+        const produk = pengeluaran.stok_produk?.produk?.nama ?? '-';
+        const harga = pengeluaran.stok_produk?.harga ?? 0;
+        const jumlah = pengeluaran.jumlah_tambah ?? 0;
+        const totalHarga = harga * jumlah;
+
+        if (!pengeluaran.stok_produk || !pengeluaran.stok_produk.produk || harga === 0) {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Data produk atau harga tidak tersedia untuk pengeluaran ini.',
+                icon: 'warning',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#3085d6',
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Detail Pengeluaran',
+            html: `
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="p-2 text-left">Produk</th>
+                            <th class="p-2 text-left">Harga Satuan</th>
+                            <th class="p-2 text-left">Jumlah Tambah</th>
+                            <th class="p-2 text-left">Total Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t">
+                            <td class="p-2">${produk}</td>
+                            <td class="p-2">Rp ${Number(harga).toLocaleString('id-ID')}</td>
+                            <td class="p-2">${jumlah}</td>
+                            <td class="p-2">Rp ${Number(totalHarga).toLocaleString('id-ID')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            icon: 'info',
+            confirmButtonText: 'Tutup',
+            confirmButtonColor: '#3085d6',
+            customClass: {
+                popup: 'rounded-lg',
+                title: 'text-lg font-semibold',
+                content: 'p-4',
+            },
+            width: '600px',
+        });
     }
 </script>
 @endsection

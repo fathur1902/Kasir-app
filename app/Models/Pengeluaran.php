@@ -17,7 +17,6 @@ class Pengeluaran extends Model
 
     public function stokProduk()
     {
-        return $this->belongsTo(StokProduk::class);
+        return $this->belongsTo(StokProduk::class, 'stok_produk_id');
     }
 }
-

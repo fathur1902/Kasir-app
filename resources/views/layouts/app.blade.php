@@ -63,46 +63,76 @@
                 <div class="w-10"></div>
             </div>
             <!-- Statistik Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <a href="{{ route('pemasukan') }}"
+            @if(Auth::user()->role === 'user')
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <a href="{{ route('pemasukan') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-400' : '' }}"
                     id="pemasukan-card">
-                    <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
-                    <div>
-                        <p class="text-gray-500">Pemasukan</p>
-                        <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
-                    </div>
-                </a>
-                <a href="{{ route('pengeluaran') }}"
+                        <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
+                        <div>
+                            <p class="text-gray-500">Pemasukan</p>
+                            <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('pengeluaran') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
                     id="pengeluaran-card">
-                    <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
-                    <div>
-                        <p class="text-gray-500">Pengeluaran</p>
-                        <p class="text-xl font-bold">Rp. 20,000</p>
-                    </div>
-                </a>
-                <a href="{{ route('transaksi.index') }}"
+                        <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
+                        <div>
+                            <p class="text-gray-500">Pengeluaran</p>
+                            <p class="text-xl font-bold">Rp. 20,000</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('transaksi.index') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}"
                     id="kasir-card">
-                    <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
-                    <div>
-                        <p>Kasir</p>
-                        <p class="text-xl font-bold">Transaksi</p>
-                    </div>
-                </a>
-                @if(Auth::user()->role === 'admin')
-                <a href="{{ route('stok.index') }}"
+                        <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
+                        <div>
+                            <p>Kasir</p>
+                            <p class="text-xl font-bold">Transaksi</p>
+                        </div>
+                    </a>
+                </div>
+            @else
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <a href="{{ route('pemasukan') }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-400' : '' }}"
+                    id="pemasukan-card">
+                        <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
+                        <div>
+                            <p class="text-gray-500">Pemasukan</p>
+                            <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('pengeluaran') }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
+                    id="pengeluaran-card">
+                        <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
+                        <div>
+                            <p class="text-gray-500">Pengeluaran</p>
+                            <p class="text-xl font-bold">Rp. 20,000</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('transaksi.index') }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}"
+                    id="kasir-card">
+                        <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
+                        <div>
+                            <p>Kasir</p>
+                            <p class="text-xl font-bold">Transaksi</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('stok.index') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('stok-item') ? 'bg-blue-400' : '' }}"
                     id="stok-item-card">
-                    <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
-                    <div>
-                        <p class="text-gray-500">Stok Item</p>
-                        <p class="text-xl font-bold">{{ number_format($totalStok) }} Stok</p>
-                    </div>
-                </a>
-                @endif
-            </div>
+                        <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
+                        <div>
+                            <p class="text-gray-500">Stok Item</p>
+                            <p class="text-xl font-bold">{{ number_format($totalStok) }} Stok</p>
+                        </div>
+                    </a>
+                </div>
+            @endif
             @yield('content')
         </div>
     </div>
