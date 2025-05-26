@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('stok_produk_id')->constrained()->onDelete('cascade');
             $table->integer('jumlah_tambah');
-            $table->bigInteger('total'); // total pengeluaran = jumlah_tambah × harga
-            $table->timestamps(); // created_at sebagai tanggal
+            $table->bigInteger('total');
+            $table->timestamps();
         });
     }
 

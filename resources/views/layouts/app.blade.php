@@ -104,7 +104,7 @@
                             <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
                         </div>
                     </a>
-                    <a href="{{ route('pengeluaran') }}"
+                    <a href="{{ route('pengeluaran.index') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
                     id="pengeluaran-card">
                         <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>

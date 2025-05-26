@@ -17,7 +17,7 @@
                     <i class="fas fa-file-export mr-2"></i>
                     Export
                 </button>
-                <a href="" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">
+                <a href="{{ route('pengeluaran.create') }}" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">
                     <i class="fas fa-plus mr-2"></i> Tambah Kebutuhan
                 </a>
             </div>
@@ -39,10 +39,12 @@
             <tr class="border-b">
                 <td class="p-2">{{ $index + 1 }}</td>
                 <td class="p-2">{{ $pengeluaran->created_at->format('d-m-Y') }}</td>
-                <td class="p-2">{{ $pengeluaran->stokProduk->produk->nama ?? '-' }}</td>
+                <td class="p-2">
+                    {{ $pengeluaran->stokProduk->produk->nama ?? $pengeluaran->nama_item ?? '-' }}
+                </td>
                 <td class="p-2">{{ $pengeluaran->jumlah_tambah }}</td>
                 <td class="p-2">
-                    <button onclick="showDetail({{ $pengeluaran->id }})" 
+                    <button onclick="showDetail({{ $pengeluaran->id }})"
                         class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Detail</button>
                 </td>
             </tr>
@@ -58,7 +60,7 @@
 
 <script>
     function showDetail(id) {
-        const pengeluarans = @json($pengeluarans->keyBy('id'));
+        const pengeluarans = @json($pengeluarans -> keyBy('id'));
         const pengeluaran = pengeluarans[id];
 
         if (!pengeluaran) {
@@ -72,10 +74,10 @@
             return;
         }
 
-        const produk = pengeluaran.stok_produk?.produk?.nama ?? '-';
-        const harga = pengeluaran.stok_produk?.harga ?? 0;
+        const produk = pengeluaran.stok_produk?.produk?.nama ?? pengeluaran.nama_item ?? '-';
+        const harga = pengeluaran.stok_produk?.harga ?? (pengeluaran.total / pengeluaran.jumlah_tambah);
         const jumlah = pengeluaran.jumlah_tambah ?? 0;
-        const totalHarga = harga * jumlah;
+        const totalHarga = pengeluaran.total ?? 0;
 
         if (!pengeluaran.stok_produk || !pengeluaran.stok_produk.produk || harga === 0) {
             Swal.fire({

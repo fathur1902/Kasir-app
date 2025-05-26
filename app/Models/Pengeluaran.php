@@ -11,7 +11,9 @@ class Pengeluaran extends Model
 
     protected $fillable = [
         'stok_produk_id',
+        'nama_item',
         'jumlah_tambah',
+        'harga_satuan',
         'total',
     ];
 

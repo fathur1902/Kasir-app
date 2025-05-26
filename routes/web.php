@@ -57,7 +57,9 @@ Route::middleware('auth')->group(function () {
 
 // Rute untuk Pengeluaran (hanya bisa diakses oleh yang sudah login)
 Route::middleware('auth')->group(function () {
-    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran');
+    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
+    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])->name('pengeluaran.create');
+    Route::post('/pengeluaran', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
     Route::get('/export', [PengeluaranController::class, 'export'])->name('pengeluaran.export');
 });
 
