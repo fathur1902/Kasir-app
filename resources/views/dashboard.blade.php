@@ -2,23 +2,13 @@
 
 @section('content')
     <div class="flex flex-col gap-6">
-        <!-- Grafik -->
+        <!-- Grafik  -->
         <div class="bg-white p-4 rounded-lg shadow w-full">
-            <h2 class="text-lg font-semibold mb-4">Chart</h2>
-            <canvas id="salesChart" class="h-10"></canvas>
+            <h2 class="text-lg font-semibold mb-4">Grafik Penjualan</h2>
+            <canvas id="pemasukanChart" class="h-54"></canvas>
             <div class="flex justify-between text-sm text-gray-500 mt-2">
-                <span>2021</span>
-                <span>2022</span>
-            </div>
-            <div class="text-sm text-gray-500 mt-2">
-                <p>Agustus 2020: 50% sale</p>
-                <p>September 2020: 72% sale</p>
-                <p>Oktober 2020: 80% sale</p>
-                <p>November 2020: 90% sale</p>
-                <p>Desember 2020: 95% sale</p>
-                <p>Januari 2021: 73% sale</p>
-                <p>Februari 2021: 80% sale</p>
-                <p>Maret 2021: 90% sale</p>
+                <span>{{ $transaksis->min('created_at')->format('Y') }}</span>
+                <span>{{ $transaksis->max('created_at')->format('Y') }}</span>
             </div>
         </div>
 
@@ -60,30 +50,52 @@
     @vite('resources/js/app.js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('salesChart');
+            const transaksis = @json($transaksis);
+            const pemasukanPerBulan = {};
+            transaksis.forEach(trx => {
+                const bulan = trx.created_at.substring(0, 7); 
+                pemasukanPerBulan[bulan] = (pemasukanPerBulan[bulan] || 0) + trx.total;
+            });
+            const labels = Object.keys(pemasukanPerBulan).sort();
+            const data = labels.map(bulan => pemasukanPerBulan[bulan]);
+            const formattedLabels = labels.map(bulan => {
+                const date = new Date(bulan + '-01');
+                const monthNames = [
+                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ];
+                return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            });
+
+            const ctx = document.getElementById('pemasukanChart');
             if (ctx) {
                 const context = ctx.getContext('2d');
                 new Chart(context, {
-                    type: 'line',
+                    type: 'bar',
                     data: {
-                        labels: ['Agustus 2020', 'September 2020', 'Oktober 2020', 'November 2020', 'Desember 2020', 'Januari 2021', 'Februari 2021', 'Maret 2021'],
+                        labels: formattedLabels,
                         datasets: [{
-                            label: 'Sales (%)',
-                            data: [50, 72, 80, 90, 95, 73, 80, 90],
+                            label: 'Total Pemasukan (Rp)',
+                            data: data,
                             backgroundColor: 'rgba(147, 112, 219, 0.5)',
                             borderColor: 'rgba(147, 112, 219, 1)',
                             borderWidth: 2,
-                            tension:0.4
+                            tension: 0.4,
+                            fill: true
                         }]
                     },
                     options: {
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: 100,
                                 title: {
                                     display: true,
-                                    text: 'Penjualan'
+                                    text: 'Total Pemasukan (Rp)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'Rp ' + value.toLocaleString('id-ID');
+                                    }
                                 }
                             },
                             x: {
@@ -95,13 +107,20 @@
                         },
                         plugins: {
                             legend: {
-                                display: false
+                                display: true
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                                    }
+                                }
                             }
                         }
                     }
                 });
             } else {
-                console.error('Canvas element with ID "salesChart" not found');
+                console.error('Canvas element with ID "pemasukanChart" not found');
             }
         });
     </script>

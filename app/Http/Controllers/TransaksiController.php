@@ -92,4 +92,5 @@ class TransaksiController extends Controller
             }),
         ]);
     }
+    
 }

@@ -10,10 +10,33 @@ use Illuminate\Http\Request;
 
 class StokProdukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
+        // Query untuk mengambil data stok
+        $query = StokProduk::with('produk')->latest();
+
+        // Jika ada input pencarian, filter berdasarkan nama produk
+        if ($search) {
+            $query->whereHas('produk', function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('singkatan', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Ambil data stok
+        $stokList = $query->get();
         $stokList = StokProduk::with('produk')->orderBy('created_at', 'desc')->get();
         $produkList = Produk::all();
+        // if ($request->has('search')) {
+        //     dd([
+        //         'search' => $search,
+        //         'query' => $query->toSql(),
+        //         'bindings' => $query->getBindings(),
+        //         'results' => $stokList->toArray(),
+        //     ]);
+        // }
         return view('stok.index', compact('stokList', 'produkList'));
     }
 

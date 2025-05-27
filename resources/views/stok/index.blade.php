@@ -11,8 +11,14 @@
 
     <div class="flex justify-between items-center mt-2">
         <div class="relative">
-            <input type="text" placeholder="Cari Barang" class="pl-10 pr-4 py-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+            <form action="{{ route('stok.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Cari Barang" 
+                       class="pl-10 pr-4 py-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                       value="{{ old('search', request()->query('search')) }}">
+                <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
         <a href="{{ route('stok.create') }}" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">
             <i class="fas fa-plus mr-2"></i> Tambah Stok
@@ -33,15 +39,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($stokList as $i => $stok)
+            @forelse($stokList as $i => $stok)
             <tr class="border-b">
                 <td class="p-2">{{ $i + 1 }}</td>
                 <td class="p-2">{{ $stok->created_at->format('Y-m-d') }}</td>
-                <td class="p-2">{{ $stok->produk->nama }} ({{ $stok->produk->singkatan }})</td>
-                <td class="p-2">Rp {{ number_format($stok->harga) }}</td>
+                <td class="p-2">{{ $stok->produk->nama ?? 'N/A' }} ({{ $stok->produk->singkatan ?? 'N/A' }})</td>
+                <td class="p-2">Rp {{ number_format($stok->harga, 0, ',', '.') }}</td>
                 <td class="p-2">{{ $stok->jumlah }}</td>
-                <td class="p-2">Rp {{ number_format($stok->total) }}</td>
-                <td class="p-2">Rp {{ number_format($stok->profit) }}</td>
+                <td class="p-2">Rp {{ number_format($stok->total, 0, ',', '.') }}</td>
+                <td class="p-2">Rp {{ number_format($stok->profit, 0, ',', '.') }}</td>
                 <td class="p-2">
                     <a href="{{ route('stok.edit', $stok->id) }}" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</a>
                     <form action="{{ route('stok.destroy', $stok->id) }}" method="POST" class="inline">
@@ -51,12 +57,11 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
-            @if($stokList->isEmpty())
+            @empty
             <tr>
                 <td colspan="8" class="text-center text-gray-500 py-4">Data kosong</td>
             </tr>
-            @endif
+            @endforelse
         </tbody>
     </table>
 </div>

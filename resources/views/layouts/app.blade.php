@@ -10,6 +10,7 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://js.xendit.co/v1/xendit.min.js"></script>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100 font-sans">
@@ -74,13 +75,13 @@
                             <p class="text-xl font-bold">Rp. {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
                         </div>
                     </a>
-                    <a href="{{ route('pengeluaran') }}"
+                    <a href="{{ route('pengeluaran.index') }}"
                     class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
                     id="pengeluaran-card">
                         <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
                             <p class="text-gray-500">Pengeluaran</p>
-                            <p class="text-xl font-bold">Rp. 20,000</p>
+                            <p class="text-xl font-bold">Rp. {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
                         </div>
                     </a>
                     <a href="{{ route('transaksi.index') }}"
@@ -110,7 +111,7 @@
                         <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
                             <p class="text-gray-500">Pengeluaran</p>
-                            <p class="text-xl font-bold">Rp. 20,000</p>
+                            <p class="text-xl font-bold">Rp. {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
                         </div>
                     </a>
                     <a href="{{ route('transaksi.index') }}"

@@ -85,9 +85,10 @@
 <div id="modal-produk" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow w-full max-w-md mx-auto">
         <h2 class="text-lg font-semibold mb-4 text-center">Klik Produk untuk Menambahkan</h2>
-        <div class="flex flex-col gap-2">
+        <input type="text" id="search-produk" class="w-full border p-2 rounded mb-4" placeholder="Cari produk..." oninput="filterProduk()">
+        <div class="flex flex-col gap-2" id="daftar-produk">
             @foreach($produk as $item)
-            <div class="border p-2 rounded cursor-pointer hover:bg-blue-100"
+            <div class="border p-2 rounded cursor-pointer hover:bg-blue-100 produk-item"
                 onclick="tambahLangsung('{{ $item->id }}', '{{ $item->produk ? addslashes($item->produk->nama) : 'Produk Tidak Ditemukan' }}', {{ $item->harga }})">
                 <p class="font-medium">{{ $item->produk->nama ?? 'Produk Tidak Ditemukan' }}</p>
                 <p class="text-sm text-gray-500">Rp {{ number_format($item->harga * 1.10) }}</p>
@@ -260,8 +261,8 @@
 
                 // Format tanggal dan waktu 
                 const now = new Date();
-                const tanggal = now.toISOString().split('T')[0]; // Format YYYY-MM-DD
-                const waktu = now.toTimeString().split(' ')[0]; // Format HH:mm:ss
+                const tanggal = now.toISOString().split('T')[0];
+                const waktu = now.toTimeString().split(' ')[0]; 
                 let html = `
                     <div class="text-center">
                         <div class="mb-2">
@@ -309,5 +310,18 @@
     function tutupModalStruk() {
         document.getElementById('modal-struk').classList.replace('flex', 'hidden');
     }
+    function filterProduk() {
+    const keyword = document.getElementById('search-produk').value.toLowerCase();
+    const produkItems = document.querySelectorAll('#daftar-produk .produk-item');
+
+    produkItems.forEach(item => {
+        const namaProduk = item.querySelector('p.font-medium').innerText.toLowerCase();
+        if (namaProduk.includes(keyword)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none'; 
+        }
+    });
+}
 </script>
 @endsection

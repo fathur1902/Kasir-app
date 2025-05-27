@@ -14,7 +14,8 @@ class DashboardController extends Controller {
             return redirect()->route('transaksi.index')->with('error', 'Akses ditolak. Hanya admin yang dapat mengakses dashboard.');
         }
         $pesanan = Transaksi::with('transaksiItems.stokProduk')->latest()->get();
-        return view('dashboard', compact('pesanan'));
+        $transaksis = Transaksi::with('transaksiItems.stokProduk.produk')->latest()->get();
+        return view('dashboard', compact('pesanan', 'transaksis'));
     }
 
 }
