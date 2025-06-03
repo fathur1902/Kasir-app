@@ -14,32 +14,28 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class PengeluaranExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithColumnFormatting
 {
     protected $filter;
+    protected $dateParams;
 
-    public function __construct($filter)
+    public function __construct($filter, $dateParams)
     {
         $this->filter = $filter;
+        $this->dateParams = $dateParams;
     }
 
     public function collection()
     {
-        $query = Pengeluaran::with('stokProduk.produk');
-
-        if ($this->filter === 'harian') {
-            $query->whereDate('created_at', now());
-        } elseif ($this->filter === 'mingguan') {
-            $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-        } elseif ($this->filter === 'bulanan') {
-            $query->whereMonth('created_at', now()->month);
-        }
+        $query = Pengeluaran::with('stokProduk.produk')
+            ->whereBetween('created_at', [$this->dateParams['start_date'], $this->dateParams['end_date']])
+            ->latest();
 
         $data = $query->get();
 
         return $data->map(function ($item) {
             return [
-                'Tanggal' => $item->created_at->format('Y-m-d'),
-                'Produk' => $item->stokProduk->produk->nama ?? '-',
+                'Tanggal' => $item->created_at->format('Y-m-d H:i:s'),
+                'Produk' => $item->stokProduk->produk->nama ?? $item->nama_item ?? '-',
                 'Jumlah Ditambah' => $item->jumlah_tambah,
-                'Harga Satuan' => $item->stokProduk->harga ?? 0,
+                'Harga Satuan' => $item->stokProduk->harga ?? ($item->total / $item->jumlah_tambah),
                 'Total' => $item->total ?? 0,
             ];
         });

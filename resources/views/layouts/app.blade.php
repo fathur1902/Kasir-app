@@ -19,7 +19,7 @@
         <div id="sidebar" class="w-64 bg-blue-400 p-6 transition-all duration-300 rounded-m">
             <div class="flex items-center mb-8">
                 <i class="fas fa-user mr-2"></i>
-                <span id="admin-text" class="text-lg font-semibold">{{ Auth::user()->name }}</span>
+                <span id="admin-text" class="text-lg font-semibold">Halo, {{ Auth::user()->name }}</span>
             </div>
             <nav>
                 <ul>
@@ -67,7 +67,7 @@
             @if(Auth::user()->role === 'user')
                 <div class="grid grid-cols-3 gap-4 mb-6">
                     <a href="{{ route('pemasukan') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-300' : '' }}"
                     id="pemasukan-card">
                         <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
@@ -76,7 +76,7 @@
                         </div>
                     </a>
                     <a href="{{ route('pengeluaran.index') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('pengeluaran.index') ? 'bg-blue-300' : '' }}"
                     id="pengeluaran-card">
                         <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
@@ -85,7 +85,7 @@
                         </div>
                     </a>
                     <a href="{{ route('transaksi.index') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('transaksi.index') ? 'bg-blue-300' : '' }}"
                     id="kasir-card">
                         <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
                         <div>
@@ -97,7 +97,7 @@
             @else
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <a href="{{ route('pemasukan') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('pemasukan') ? 'bg-blue-300' : '' }}"
                     id="pemasukan-card">
                         <i class="fas fa-arrow-trend-up text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
@@ -106,7 +106,7 @@
                         </div>
                     </a>
                     <a href="{{ route('pengeluaran.index') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('pengeluaran') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('pengeluaran.index') ? 'bg-blue-300' : '' }}"
                     id="pengeluaran-card">
                         <i class="fas fa-arrow-trend-down text-gray-500 w-6 h-6 mr-2"></i>
                         <div>
@@ -115,7 +115,7 @@
                         </div>
                     </a>
                     <a href="{{ route('transaksi.index') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('dashboard') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('transaksi.index') ? 'bg-blue-300' : '' }}"
                     id="kasir-card">
                         <i class="fas fa-yen-sign w-6 h-6 mr-2"></i>
                         <div>
@@ -124,7 +124,7 @@
                         </div>
                     </a>
                     <a href="{{ route('stok.index') }}"
-                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-400 transition active-card {{ request()->routeIs('stok-item') ? 'bg-blue-400' : '' }}"
+                    class="bg-white p-4 rounded-lg shadow flex items-center hover:bg-blue-300 transition active-card {{ request()->routeIs('stok.index') ? 'bg-blue-300' : '' }}"
                     id="stok-item-card">
                         <i class="fas fa-bag-shopping text-gray-500 w-6 h-6 mr-2"></i>
                         <div>

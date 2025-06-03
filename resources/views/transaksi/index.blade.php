@@ -33,19 +33,26 @@
     <div id="pembayaran-section" class="bg-gray-50 p-4 rounded-lg shadow mb-4 hidden">
         <h3 class="font-semibold mb-2">Metode Pembayaran</h3>
         <div class="flex gap-4 items-center mb-4">
-            <label><input type="radio" name="metode" value="cash" onchange="handleMetodeChange(this)"> Cash</label>
-            <label><input type="radio" name="metode" value="qris" onchange="handleMetodeChange(this)"> QRIS</label>
+            <!-- Card untuk Cash -->
+            <label class="flex-1">
+                <input type="radio" name="metode" value="cash" onchange="handleMetodeChange(this)" class="hidden">
+                <div class="border rounded-lg p-3 cursor-pointer hover:bg-blue-300 hover:shadow-md active:bg-blue-300 active:shadow-md transition duration-200 text-center bg-white shadow-sm metode-card">
+                    <p class="text-sm font-medium text-gray-700">Cash</p>
+                </div>
+            </label>
+            <!-- Card untuk QRIS -->
+            <label class="flex-1">
+                <input type="radio" name="metode" value="qris" onchange="handleMetodeChange(this)" class="hidden">
+                <div class="border rounded-lg p-3 cursor-pointer hover:bg-blue-300 hover:shadow-md active:bg-blue-300 active:shadow-md transition duration-200 text-center bg-white shadow-sm metode-card">
+                    <p class="text-sm font-medium text-gray-700">QRIS</p>
+                </div>
+            </label>
         </div>
 
         <!-- Cash Input -->
         <div id="section-cash" class="hidden">
             <input type="number" id="input-bayar-cash" class="w-full border p-2 rounded mb-2" placeholder="Masukkan nominal bayar" oninput="hitungKembalian()" />
             <p class="text-sm text-green-600 mb-2" id="kembalian-display">Kembalian: Rp. 0</p>
-        </div>
-
-        <!-- QRIS Dummy -->
-        <div id="section-qris" class="hidden bg-gray-100 p-4 text-center rounded">
-            <p>[ Kode QR akan muncul di sini ]</p>
         </div>
 
         <button onclick="submitPembayaran()" class="bg-green-500 text-black px-4 py-2 rounded w-full mt-4">Selesaikan Pembayaran</button>
@@ -166,7 +173,6 @@
         });
     }
 
-
     function ubahQty(index, newQty) {
         const qty = parseInt(newQty);
         if (qty < 1) return;
@@ -193,7 +199,11 @@
     function handleMetodeChange(input) {
         const metode = input.value;
         document.getElementById('section-cash').classList.toggle('hidden', metode !== 'cash');
-        document.getElementById('section-qris').classList.toggle('hidden', metode !== 'qris');
+        document.querySelectorAll('.metode-card').forEach(card => card.classList.remove('bg-blue-300', 'shadow-md'));
+        const selectedCard = input.closest('label').querySelector('.metode-card');
+        if (selectedCard) {
+            selectedCard.classList.add('bg-blue-300', 'shadow-md');
+        }
     }
 
     function hitungKembalian() {
@@ -244,8 +254,15 @@
                 struk = [];
                 updateStrukTable();
                 updateTotal();
-                alert('Pembayaran berhasil.');
-                location.reload();
+                Swal.fire({
+                    title: 'Sukses',
+                    text: 'Pembayaran berhasil diselesaikan!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6',
+                }).then(() => {
+                    location.reload();
+                });
             })
             .catch(err => {
                 alert(err.message || 'Terjadi kesalahan saat menyimpan transaksi');
@@ -310,18 +327,19 @@
     function tutupModalStruk() {
         document.getElementById('modal-struk').classList.replace('flex', 'hidden');
     }
-    function filterProduk() {
-    const keyword = document.getElementById('search-produk').value.toLowerCase();
-    const produkItems = document.querySelectorAll('#daftar-produk .produk-item');
 
-    produkItems.forEach(item => {
-        const namaProduk = item.querySelector('p.font-medium').innerText.toLowerCase();
-        if (namaProduk.includes(keyword)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none'; 
-        }
-    });
-}
+    function filterProduk() {
+        const keyword = document.getElementById('search-produk').value.toLowerCase();
+        const produkItems = document.querySelectorAll('#daftar-produk .produk-item');
+
+        produkItems.forEach(item => {
+            const namaProduk = item.querySelector('p.font-medium').innerText.toLowerCase();
+            if (namaProduk.includes(keyword)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none'; 
+            }
+        });
+    }
 </script>
 @endsection

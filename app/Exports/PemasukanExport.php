@@ -14,23 +14,19 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class PemasukanExport implements FromCollection, WithHeadings, WithStyles, ShouldAutoSize, WithColumnFormatting
 {
     protected $filter;
+    protected $dateParams;
 
-    public function __construct($filter)
+    public function __construct($filter, $dateParams)
     {
         $this->filter = $filter;
+        $this->dateParams = $dateParams;
     }
 
     public function collection()
     {
-        $query = Transaksi::with('transaksiItems.stokProduk.produk');
-
-        if ($this->filter === 'harian') {
-            $query->whereDate('created_at', now());
-        } elseif ($this->filter === 'mingguan') {
-            $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-        } elseif ($this->filter === 'bulanan') {
-            $query->whereMonth('created_at', now()->month);
-        }
+        $query = Transaksi::with('transaksiItems.stokProduk.produk')
+            ->whereBetween('created_at', [$this->dateParams['start_date'], $this->dateParams['end_date']])
+            ->latest();
 
         $data = $query->get();
 
@@ -38,13 +34,13 @@ class PemasukanExport implements FromCollection, WithHeadings, WithStyles, Shoul
         foreach ($data as $trx) {
             foreach ($trx->transaksiItems as $item) {
                 $modal = $item->stokProduk->harga ?? 0;
-                $profitItem = $item->keuntungan;
+                $profitItem = $item->keuntungan ?? 0;
                 $hargaJual = $modal + $profitItem;
                 $untung = $profitItem * $item->jumlah;
                 $subtotal = $hargaJual * $item->jumlah;
 
                 $result[] = [
-                    $trx->created_at->format('Y-m-d'),
+                    $trx->created_at->format('Y-m-d H:i:s'),
                     $item->stokProduk->produk->nama ?? '-',
                     $item->jumlah,
                     $hargaJual,
@@ -75,7 +71,7 @@ class PemasukanExport implements FromCollection, WithHeadings, WithStyles, Shoul
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:I1')->applyFromArray([
+        $sheet->getStyle('A1:H1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['argb' => 'FFFFFFFF'],
@@ -89,7 +85,7 @@ class PemasukanExport implements FromCollection, WithHeadings, WithStyles, Shoul
             ],
         ]);
         $lastRow = $sheet->getHighestRow();
-        $sheet->getStyle('A1:I' . $lastRow)->applyFromArray([
+        $sheet->getStyle('A1:H' . $lastRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -98,16 +94,16 @@ class PemasukanExport implements FromCollection, WithHeadings, WithStyles, Shoul
             ],
         ]);
 
-        $sheet->getStyle('D2:D' . $lastRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('C2:C' . $lastRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     }
 
     public function columnFormats(): array
     {
         return [
-            'E' => '"Rp"#,##0', // Harga Jual
-            'F' => '"Rp"#,##0', // Harga Modal
-            'G' => '"Rp"#,##0', // Subtotal
-            'H' =>'"Rp"#,##0', // Keuntungan
+            'D' => '"Rp"#,##0', // Harga Jual
+            'E' => '"Rp"#,##0', // Harga Modal
+            'F' => '"Rp"#,##0', // Subtotal
+            'G' => '"Rp"#,##0', // Keuntungan
         ];
     }
 }

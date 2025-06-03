@@ -6,12 +6,25 @@
         <form action="{{ route('pemasukan.export') }}" method="GET" class="flex flex-col space-y-2">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-blue-600">Pemasukan</h2>
-                <select name="filter" class="text-sm p-1 rounded border">
+                <select name="filter" id="filter" class="text-sm p-1 rounded border" onchange="toggleDateInput()">
                     <option value="harian">Harian</option>
                     <option value="mingguan">Mingguan</option>
                     <option value="bulanan">Bulanan</option>
                 </select>
             </div>
+            <div id="harian-input" class="hidden space-y-2">
+                <label for="harian_date" class="block font-semibold">Pilih Tanggal</label>
+                <input type="date" name="harian_date" id="harian_date" class="w-full border rounded p-2" value="{{ now()->format('Y-m-d') }}">
+            </div>
+            <div id="mingguan-input" class="hidden space-y-2">
+                <label for="mingguan_date" class="block font-semibold">Pilih Minggu (Tanggal Awal Minggu)</label>
+                <input type="date" name="mingguan_date" id="mingguan_date" class="w-full border rounded p-2" value="{{ now()->startOfWeek()->format('Y-m-d') }}">
+            </div>
+            <div id="bulanan-input" class="hidden space-y-2">
+                <label for="bulanan_date" class="block font-semibold">Pilih Bulan</label>
+                <input type="month" name="bulanan_date" id="bulanan_date" class="w-full border rounded p-2" value="{{ now()->format('Y-m') }}">
+            </div>
+
             <div class="flex justify-start">
                 <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">                    
                     <i class="fas fa-file-export mr-2"></i>
@@ -57,6 +70,26 @@
 </div>
 
 <script>
+    function toggleDateInput() {
+        const filter = document.getElementById('filter').value;
+        document.getElementById('harian-input').classList.add('hidden');
+        document.getElementById('mingguan-input').classList.add('hidden');
+        document.getElementById('bulanan-input').classList.add('hidden');
+
+        if (filter === 'harian') {
+            document.getElementById('harian-input').classList.remove('hidden');
+        } else if (filter === 'mingguan') {
+            document.getElementById('mingguan-input').classList.remove('hidden');
+        } else if (filter === 'bulanan') {
+            document.getElementById('bulanan-input').classList.remove('hidden');
+        }
+    }
+
+    // Panggil toggleDateInput saat halaman dimuat untuk menyesuaikan input default
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleDateInput();
+    });
+
     function showDetail(id) {
         const transaksis = @json($transaksis->keyBy('id'));
         const transaksi = transaksis[id];
