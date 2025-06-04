@@ -26,11 +26,9 @@ class UserController extends Controller
         return view('settings', [
             'users' => $users,
             'editTargetUser' => $editTargetUser,
-            'user' => $currentUser, 
+            'user' => $currentUser,
         ]);
     }
-
-
 
     public function editPassword($id)
     {
@@ -41,9 +39,10 @@ class UserController extends Controller
         return view('settings', [
             'user' => $currentUser,
             'users' => $users,
-            'editUser' => $targetUser,
+            'editTargetUser' => $targetUser, // ganti dari 'editUser' ke 'editTargetUser'
         ]);
     }
+
 
     public function updatePassword(Request $request)
     {

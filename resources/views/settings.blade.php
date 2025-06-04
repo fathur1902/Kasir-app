@@ -61,10 +61,20 @@
                 <i class="fas fa-eye"></i>
             </button>
         </div>
-
+        @if (auth()->user()->role === 'admin' && isset($editTargetUser))
+        <div class="flex space-x-4 mt-6">
+            <button type="submit" class="bg-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-500 transition">
+                Ubah Kata Sandi
+            </button>
+            <a href="{{ route('settings') }}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-full font-semibold hover:bg-gray-400 transition">
+                Batal
+            </a>
+        </div>
+        @else
         <button type="submit" class="bg-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-500 transition">
             Ubah Kata Sandi
         </button>
+        @endif
     </form>
 </div>
 
@@ -100,7 +110,7 @@
                     </td>
 
                     <td class="p-3 flex space-x-2">
-                        <a href="{{ route('settings', ['user_id' => $user->id]) }}"
+                        <a href="{{ route('settings.editPassword', ['id' => $kasir->id]) }}"
                             class="bg-yellow-500 text-white px-3 py-1 rounded text-sm font-medium hover:bg-yellow-600 transition">
                             Edit Password
                         </a>
