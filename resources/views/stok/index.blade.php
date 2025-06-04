@@ -12,9 +12,9 @@
     <div class="flex justify-between items-center mt-2">
         <div class="relative">
             <form action="{{ route('stok.index') }}" method="GET">
-                <input type="text" name="search" placeholder="Cari Barang" 
-                       class="pl-10 pr-4 py-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                       value="{{ old('search', request()->query('search')) }}">
+                <input type="text" name="search" placeholder="Cari Barang"
+                    class="pl-10 pr-4 py-1 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value="{{ old('search', request()->query('search')) }}">
                 <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                     <i class="fas fa-search"></i>
                 </button>

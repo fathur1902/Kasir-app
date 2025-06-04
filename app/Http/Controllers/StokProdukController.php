@@ -25,18 +25,10 @@ class StokProdukController extends Controller
             });
         }
 
-        // Ambil data stok
+        // Ambil hasil akhir
         $stokList = $query->get();
-        $stokList = StokProduk::with('produk')->orderBy('created_at', 'desc')->get();
         $produkList = Produk::all();
-        // if ($request->has('search')) {
-        //     dd([
-        //         'search' => $search,
-        //         'query' => $query->toSql(),
-        //         'bindings' => $query->getBindings(),
-        //         'results' => $stokList->toArray(),
-        //     ]);
-        // }
+
         return view('stok.index', compact('stokList', 'produkList'));
     }
 
