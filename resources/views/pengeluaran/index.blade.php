@@ -30,9 +30,11 @@
                     <i class="fas fa-file-export mr-2"></i>
                     Export
                 </button>
+                @if(auth()->user()->role === 'admin')
                 <a href="{{ route('pengeluaran.create') }}" class="bg-blue-500 text-white px-3 py-1 rounded-xl flex items-center">
                     <i class="fas fa-plus mr-2"></i> Tambah Kebutuhan
                 </a>
+                @endif
             </div>
         </form>
     </div>
